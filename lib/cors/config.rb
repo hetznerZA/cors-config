@@ -7,7 +7,7 @@ module Cors
     class CorsConfigError < StandardError; end
 
     def initialize(app)
-      @config = 'config/cors.yml'
+      @user_config = 'config/cors.yml'
       @app = app
       configure_cors
     end
@@ -30,8 +30,8 @@ module Cors
 
     private
     def configure_cors
-      return [] if File.exist?(@config)
-      @configeration = YAML.load_file('config/cors.yml')
+      return [] if File.exist?(@user_config)
+      @config = YAML.load_file(@user_config)
     end
   end
 end
