@@ -8,11 +8,11 @@ module Cors
 
     def initialize(app)
       @app = app
+      @user_config = 'config/cors.yml'
     end
 
     def call(env)
-      user_config = 'config/cors.yml'
-      config = configure_cors(user_config)
+      config = configure_cors(@user_config)
       cors = Rack::Cors.new(@app, {}) do
         config['cors'].each { |rule|
           allow do
