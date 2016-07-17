@@ -3,7 +3,7 @@ require 'rack/cors'
 require 'rack/builder'
 
 module Cors
-  class Config
+   class Config
     class CorsConfigError < StandardError; end
 
     def initialize(app)
@@ -34,3 +34,4 @@ module Cors
     end
   end
 end
+
