@@ -11,7 +11,6 @@ module Cors
     end
 
     def call(env)
-      byebug
       user_config = 'config/cors.yml'
       config = configure_cors(user_config)
       cors = Rack::Cors.new(@app, {}) do
