@@ -13,6 +13,7 @@ module Cors
     end
 
     def call(env)
+      byebug
       return @app.call(env) if @config.empty?
       cors = Rack::Cors.new(@app, {}) do
         @config.each { |rule|
