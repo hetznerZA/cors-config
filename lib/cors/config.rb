@@ -13,6 +13,7 @@ module Cors
 
     def call(env)
       config = configure_cors
+      return @app.call(env) if config.empty?
       cors = Rack::Cors.new(@app, {}) do
         config['cors'].each { |rule|
           allow do
