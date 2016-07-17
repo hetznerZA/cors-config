@@ -4,18 +4,17 @@ require 'byebug'
 
 module Cors
    class Config
-    attr_accessor :config
     class CorsConfigError < StandardError; end
 
     def initialize(app)
       @app = app
       @user_config = 'config/cors.yml'
-      @config = configure_cors
     end
 
     def call(env)
+      config = configure_cors(@user_config)
       cors = Rack::Cors.new(@app, {}) do
-        @config['cors'].each { |rule|
+        config['cors'].each { |rule|
           allow do
             origins rule[1]['origins']
             resource rule[1]['resource'], :headers => rule[1]['headers'].to_sym, :methods => rule[1]['headers'].to_sym
