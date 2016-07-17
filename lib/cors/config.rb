@@ -30,7 +30,7 @@ module Cors
     private
     def configure_cors
       byebug
-      return [] if File.exist?(@user_config)
+      return [] unless File.exist?(@user_config)
       @config = YAML.load_file(@user_config)
     end
   end
