@@ -14,6 +14,7 @@ module Cors
 
     def call(env)
       return @app.call(env) if @config.empty?
+      byebug
       cors = Rack::Cors.new(@app, {}) do
         @config.each { |rule|
           allow do
@@ -29,7 +30,6 @@ module Cors
 
     private
     def configure_cors
-      byebug
       return [] unless File.exist?(@user_config)
       @config = YAML.load_file(@user_config)
     end
