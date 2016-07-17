@@ -9,12 +9,12 @@ module Cors
     def initialize(app)
       @app = app
       @user_config = 'config/cors.yml'
+      @config = configure_cors
     end
 
     def call(env)
-      config = configure_cors(@user_config)
       cors = Rack::Cors.new(@app, {}) do
-        config['cors'].each { |rule|
+        @config['cors'].each { |rule|
           allow do
             origins rule[1]['origins']
             resource rule[1]['resource'], :headers => rule[1]['headers'].to_sym, :methods => rule[1]['headers'].to_sym
@@ -28,8 +28,8 @@ module Cors
 
     private
     def configure_cors(user_config)
-      return [] unless File.exist?(user_config)
-      YAML.load_file(user_config)
+      return [] unless File.exist?(@user_config)
+      YAML.load_file(@user_config)
     end
   end
 end
