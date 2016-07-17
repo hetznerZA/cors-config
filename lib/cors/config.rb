@@ -9,11 +9,10 @@ module Cors
     def initialize(app)
       @user_config = 'config/cors.yml'
       @app = app
-      configure_cors
     end
 
     def call(env)
-      byebug
+      configure_cors
       return @app.call(env) if @config.empty?
       cors = Rack::Cors.new(@app, {}) do
         @config['cors'].each { |rule|
@@ -30,6 +29,7 @@ module Cors
 
     private
     def configure_cors
+      byebug
       return [] unless File.exist?(@user_config)
       @config = YAML.load_file(@user_config)
     end
