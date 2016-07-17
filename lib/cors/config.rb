@@ -27,7 +27,7 @@ module Cors
     end
 
     private
-    def configure_cors(user_config)
+    def configure_cors
       return [] unless File.exist?(@user_config)
       YAML.load_file(@user_config)
     end
