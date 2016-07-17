@@ -14,10 +14,10 @@ module Cors
     def call(env)
       return @app.call(env) if @config.empty?
       cors = Rack::Cors.new(@app, {}) do
-        @configuration.each { |config|
+        @config.each { |rule|
           allow do
-            origins config[1]['origins']
-            resource config[1]['resource'], :headers => config[1]['headers'].to_sym, :methods => config[1]['headers'].to_sym
+            origins rule[1]['origins']
+            resource rule[1]['resource'], :headers => rule[1]['headers'].to_sym, :methods => rule[1]['headers'].to_sym
           end
         }
       end
