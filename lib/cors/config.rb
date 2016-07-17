@@ -4,6 +4,7 @@ require 'byebug'
 
 module Cors
    class Config
+    attr_accessor :config
     class CorsConfigError < StandardError; end
 
     def initialize(app)
