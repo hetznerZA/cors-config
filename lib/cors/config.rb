@@ -7,13 +7,13 @@ module Cors
     class CorsConfigError < StandardError; end
 
     def initialize(app)
-      @user_config = 'config/cors.yml'
       @app = app
     end
 
     def call(env)
-      configure_cors
-      return @app.call(env) if @config.empty?
+      user_config = 'config/cors.yml'
+      config = configure_cors(user_config)
+      return @app.call(env) if config.empty?
       cors = Rack::Cors.new(@app, {}) do
         @config['cors'].each { |rule|
           allow do
@@ -28,10 +28,9 @@ module Cors
     end
 
     private
-    def configure_cors
-      byebug
-      return [] unless File.exist?(@user_config)
-      @config = YAML.load_file(@user_config)
+    def configure_cors(user_config)
+      return [] unless File.exist?(user_config)
+      YAML.load_file(user_config)
     end
   end
 end
