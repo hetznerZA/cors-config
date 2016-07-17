@@ -13,7 +13,6 @@ module Cors
     end
 
     def call(env)
-      byebug
       cors = Rack::Cors.new(@app, {}) do
         @config['cors'].each { |rule|
           allow do
