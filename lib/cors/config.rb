@@ -1,6 +1,5 @@
 require "cors/config/version"
 require 'rack/cors'
-require 'rack/builder'
 
 module Cors
    class Config
