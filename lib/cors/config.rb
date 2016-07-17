@@ -1,5 +1,6 @@
 require "cors/config/version"
 require 'rack/cors'
+require 'byebug'
 
 module Cors
    class Config
@@ -14,6 +15,7 @@ module Cors
     def call(env)
       return @app.call(env) if @config.empty?
       cors = Rack::Cors.new(@app, {}) do
+        byebug
         @config.each { |rule|
           allow do
             origins rule[1]['origins']
