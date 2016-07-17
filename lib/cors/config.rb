@@ -14,7 +14,6 @@ module Cors
 
     def call(env)
       return @app.call(env) if @config.empty?
-      byebug
       cors = Rack::Cors.new(@app, {}) do
         @config.each { |rule|
           allow do
