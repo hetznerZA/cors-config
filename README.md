@@ -26,6 +26,22 @@ In config.ru
 use Cors::Config
 ```
 
+Also the configuration is expected in config/cors.yml (for now).
+
+```
+cors:
+  products:
+    origins: '*'
+    resource: '/products'
+    headers: 'any'
+    methods: 'any'
+  status:
+    origins: '*'
+    resource: '/status'
+    headers: 'any'
+    methods: 'any'
+```
+
 ## Contributing
 
 Please send feedback and comments to the author at:
