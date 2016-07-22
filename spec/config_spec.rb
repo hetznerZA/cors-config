@@ -51,15 +51,12 @@ require './spec/support/environment'
 
   context "errors and exception handling" do
     it 'should notify when an unexpected error ocurrs' do
-      pending 'reason'
     end
 
     it 'should not raise an error if the configuraton file is missing' do
-      pending 'reason'
     end
 
     it 'should not raise an error if the configuration file is empty' do
-      pending 'reason'
     end
 
     it 'should notify if the configuration file does not exist' do
