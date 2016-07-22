@@ -1,19 +1,30 @@
 require "cors/config/version"
 require 'rack/cors'
+require 'yaml'
 require 'byebug'
 
 module Cors
   class Config
     class CorsConfigError < StandardError; end
+    attr_accessor :app, :user_config
 
-    def initialize(app)
+    def initialize(app, user_config = 'config/cors.yml')
       @app = app
-      @user_config = 'config/cors.yml'
+      @user_config = user_config
     end
 
     def call(env)
       config = configure_cors
       return @app.call(env) if config.empty?
+      cors = generate_cors_rules_from_config(config)
+      return @app.call(env) if cors.nil? || cors.empty?
+      cors.call(env)
+    rescue => error
+      CorsConfigError.new("Unexpected error #{error.message}")
+    end
+
+    private
+    def generate_cors_rules_from_config(config)
       cors = Rack::Cors.new(@app, {}) do
         config['cors'].each { |rule|
           allow do
@@ -22,12 +33,8 @@ module Cors
           end
         }
       end
-      cors.call(env)
-    rescue => error
-      raise CorsConfigError.new(error.message)
     end
 
-    private
     def configure_cors
       return [] unless File.exist?(@user_config)
       YAML.load_file(@user_config)
