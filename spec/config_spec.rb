@@ -1,12 +1,14 @@
 require 'spec_helper'
 require './lib/cors/config'
-require './spec/support/environment'
+require './spec/support/rack_app'
+require 'rack'
 
-  describe "Cors::Config" do
-    before :each do
-      Cors::Config.send(:public, *Cors::Config.private_instance_methods) 
-      @rack_app = {'some' => 'state'}
-    end
+describe "Cors::Config" do
+  before :each do
+    Cors::Config.send(:public, *Cors::Config.private_instance_methods)
+    @configuration_file = 'spec/support/cors.yml'
+    @rack_app = RackApp.new
+  end
 
   context "when bootstrapping" do
     it 'should initialize with app state' do
@@ -20,37 +22,35 @@ require './spec/support/environment'
     end
 
     it 'can initialize with a custom user configuration' do
-      cors_config = Cors::Config.new(@rack_app, 'spec/support/cors.yml')
-      expect(cors_config.user_config).to eq 'spec/support/cors.yml'
+      cors_config = Cors::Config.new(@rack_app, @configuration_file)
+      expect(cors_config.user_config).to eq @configuration_file
     end
   end
 
   context "apply cors configuration" do
     it 'should load the cors configuration file' do
-     config_contents = YAML.load_file('spec/support/cors.yml')
-     cors_config = Cors::Config.new(@rack_app, 'spec/support/cors.yml')
-     expect(cors_config.configure_cors).to eq config_contents
+      config_contents = YAML.load_file(@configuration_file)
+      cors_config = Cors::Config.new(@rack_app, @configuration_file)
+      expect(cors_config.configure_cors).to eq config_contents
     end
 
     it 'should generates the cors rules from configuration' do
-      # If you ever need to regenerate another serialized result
-      #File.open('spec/support/success.serialized', 'wb') {|f| f.write(Marshal.dump(cors.to_yaml))}
-
       cors_result_object = Marshal.load(File.binread('spec/support/success.serialized'))
       cors_config = Cors::Config.new(@rack_app, 'spec/support/cors.yml')
       config = cors_config.configure_cors
       cors = cors_config.generate_cors_rules_from_config(config)
+      #File.open('spec/support/success.serialized', 'wb') {|f| f.write(Marshal.dump(cors.to_yaml))}
       expect(cors.to_yaml === cors_result_object).to eq true
-    end
-
-    it 'should apply the cors configutation to the environment' do
-      cors_config = Cors::Config.new(@rack_app, 'spec/support/cors.yml')
-      cors_config.call({})
     end
   end
 
   context "errors and exception handling" do
     it 'should notify when an unexpected error ocurrs' do
+      cors_config = Cors::Config.new(@rack_app, 'spec/support/cors.yml')
+      allow(cors_config).to receive(:configure_cors).and_return(nil)
+      result = cors_config.call({})
+      expect(result.class).to eq Cors::Config::Error
+      expect(result.message.include?('Unexpected error')).to eq true
     end
 
     it 'should not raise an error if the configuraton file is missing' do

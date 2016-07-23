@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    cors-config (0.2.4)
+      rack-cors (~> 0.4.0)
+    rack (2.0.1)
+    rack-cors (0.4.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cors-config
+  rack
+
+BUNDLED WITH
+   1.12.5

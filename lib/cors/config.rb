@@ -1,11 +1,10 @@
 require "cors/config/version"
 require 'rack/cors'
 require 'yaml'
-require 'byebug'
 
 module Cors
   class Config
-    class CorsConfigError < StandardError; end
+    class Error < StandardError; end
     attr_accessor :app, :user_config
 
     def initialize(app, user_config = 'config/cors.yml')
@@ -17,10 +16,10 @@ module Cors
       config = configure_cors
       return @app.call(env) if config.empty?
       cors = generate_cors_rules_from_config(config)
-      return @app.call(env) if cors.nil? || cors.empty?
+      return @app.call(env) if cors.nil? 
       cors.call(env)
     rescue => error
-      CorsConfigError.new("Unexpected error #{error.message}")
+      Error.new("Unexpected error #{error.message}")
     end
 
     private

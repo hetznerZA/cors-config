@@ -1,6 +1,5 @@
-I"˜--- !ruby/object:Rack::Cors
-app:
-  some: state
+I"¢--- !ruby/object:Rack::Cors
+app: !ruby/object:RackApp {}
 debug_mode: false
 all_resources:
 - !ruby/object:Rack::Cors::Resources
