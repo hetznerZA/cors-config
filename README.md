@@ -20,16 +20,15 @@ Or install it yourself as:
 
 ## Usage
 
-Default configuration location and name is $ROOT/config/cors.yml.
-
 In config.ru
 
 ```
 use Cors::Config
+or
 use Cors::Config, 'config/my_config.yml'
 ```
 
-Also the configuration is expected in config/cors.yml (for now).
+Also the default configuration is expected in config/cors.yml.
 
 ```
 cors:
