@@ -52,20 +52,5 @@ describe "Cors::Config" do
       expect(result.class).to eq Cors::Config::Error
       expect(result.message.include?('Unexpected error')).to eq true
     end
-
-    it 'should not raise an error if the configuraton file is missing' do
-    end
-
-    it 'should not raise an error if the configuration file is empty' do
-    end
-
-    it 'should notify if the configuration file does not exist' do
-    end
-
-    it 'should notifiy if the configuration file is missing' do
-    end
-
-    it 'should notifiy if the configuration file is invalid' do
-    end
   end
 end
