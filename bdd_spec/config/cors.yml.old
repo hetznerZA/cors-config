@@ -1,0 +1,11 @@
+cors:
+  products:
+    origins: '*'
+    resource: '/products'
+    headers: 'any'
+    methods: 'any' 
+  status:
+    origins: '*'
+    resource: '/status'
+    headers: 'any'
+    methods: 'any'

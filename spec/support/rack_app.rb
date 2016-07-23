@@ -1,4 +1,4 @@
-class Environment
+class RackApp
   def call(env)
   end
 end
