@@ -1,0 +1,6 @@
+cors:
+  products:
+    methods: 'any' 
+  status:
+    headers: 'any'
+    methods: 'any'
