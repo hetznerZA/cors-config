@@ -1,5 +1,5 @@
-I"¢--- !ruby/object:Rack::Cors
-app: !ruby/object:RackApp {}
+I"Ÿ--- !ruby/object:Rack::Cors
+app: !ruby/object:Proc {}
 debug_mode: false
 all_resources:
 - !ruby/object:Rack::Cors::Resources

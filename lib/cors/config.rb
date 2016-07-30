@@ -19,7 +19,7 @@ module Cors
       return @app.call(env) if cors.nil? 
       cors.call(env)
     rescue => error
-      Error.new("Unexpected error #{error.message}")
+      raise Error.new("Unexpected error #{error.message}")
     end
 
     private
@@ -35,8 +35,10 @@ module Cors
     end
 
     def configure_cors
-      return [] unless File.exist?(@user_config)
-      YAML.load_file(@user_config)
+      return {} unless File.exist?(@user_config)
+      contents = YAML.load_file(@user_config)
+      return {} if contents == false
+      contents
     end
   end
 end
